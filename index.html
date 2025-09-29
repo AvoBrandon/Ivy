@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brandon's Portfolio</title>
+    <title>Interactive Coding Tutorial</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -11,51 +11,174 @@
             font-family: 'Inter', sans-serif;
             background: linear-gradient(90deg, #000000, #3533cd);
         }
+        #code-editor {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1rem;
+            line-height: 1.5;
+            background-color: #1e293b; /* slate-800 */
+            color: #e2e8f0; /* slate-200 */
+            border: 1px solid #334155; /* slate-700 */
+            border-radius: 0.5rem;
+            resize: none;
+        }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #1e293b; }
         ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+        .prose-code\:text-sky-400 code { color: #38bdf8 !important; }
     </style>
 </head>
 <body class="text-slate-300 antialiased">
 
-    <div class="flex flex-col min-h-screen">
+    <!-- Main Container -->
+    <div class="flex flex-col h-screen">
 
-        <header class="bg-slate-900/50 backdrop-blur-sm border-b border-slate-700 p-4 shadow-lg sticky top-0 z-10">
-            <div class="container mx-auto flex justify-between items-center">
-                <h1 class="text-2xl font-bold text-white">Brandon's Portfolio</h1>
-            </div>
+        <!-- Header -->
+        <header class="bg-slate-900/50 backdrop-blur-sm border-b border-slate-700 p-4 shadow-lg">
+            <h1 class="text-2xl font-bold text-white text-center">Learn JavaScript: The Interactive Way</h1>
         </header>
 
-        <main class="flex-grow container mx-auto p-4 md:p-8">
+        <!-- Main Content: Tutorial Layout -->
+        <main class="flex-grow grid grid-cols-1 lg:grid-cols-2 gap-4 p-4 overflow-auto">
 
-            <section id="about" class="mb-12 text-center">
-                <h2 class="text-4xl font-bold text-white mb-4">Web Developer in Training</h2>
-                <p class="max-w-3xl mx-auto text-lg">
-                    Hi! My name is Brandon. I love learning CSS inside of HTML. It adds a little bit of flavor to an already great code.
-                </p>
-            </section>
+            <!-- Left Panel: Instructions & Progress -->
+            <div class="bg-slate-800/70 backdrop-blur-xl rounded-lg shadow-xl flex flex-col p-6 border border-slate-700">
+                <div class="flex justify-between items-center mb-2">
+                    <h2 id="lesson-title" class="text-xl font-semibold text-white">Lesson 1: Hello, World!</h2>
+                </div>
+                    <div id="progress-bar" class="bg-sky-500 h-2.5 rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
+                </div>
+                <div id="instructions-panel" class="flex-grow space-y-4 prose prose-invert max-w-none prose-p:text-slate-300 prose-code:text-sky-400 prose-code:before:content-[''] prose-code:after:content-['']">
+                    <!-- Instructions will be loaded here by JavaScript -->
+                </div>
+            </div>
 
-            <section id="projects">
-                <h2 class="text-3xl font-bold text-white mb-6 text-center">My Projects</h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-                    <div class="card bg-slate-800/70 backdrop-blur-xl rounded-lg shadow-xl p-6 border border-slate-700 flex flex-col">
-                        <h3 class="text-2xl font-semibold text-white mb-2">Website Dev Project</h3>
-                        <p class="flex-grow mb-4">This is the first website that we are going to build!</p>
-                        <a href="#" class="text-sky-400 hover:text-sky-300 font-semibold self-start">Ivy</a>
+            <!-- Right Panel: Code Editor & Output -->
+            <div class="bg-slate-800/70 backdrop-blur-xl rounded-lg shadow-xl flex flex-col border border-slate-700">
+                <div class="flex-grow p-4 flex flex-col">
+                    <label for="code-editor" class="text-sm font-medium text-slate-400 mb-2">Your Code:</label>
+                    <textarea id="code-editor" class="w-full flex-grow p-4" spellcheck="false"></textarea>
+                </div>
+                <div class="border-t border-slate-700 p-4 space-y-4">
+                        <button id="run-button" class="bg-sky-600 hover:bg-sky-500 text-white font-bold py-2 px-4 rounded-lg transition-colors duration-200 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z"/></svg>
+                            Run Code
+                        </button>
+                        <button id="next-button" class="bg-slate-600 text-slate-400 font-bold py-2 px-4 rounded-lg cursor-not-allowed transition-colors duration-200" disabled>Next Step &rarr;</button>
                     </div>
-
+                        <p class="text-slate-500">Output will appear here...</p>
                     </div>
-            </section>
-
+                </div>
+            </div>
         </main>
-        
-        <footer class="bg-slate-900/50 border-t border-slate-700 p-4 mt-12">
-            <p class="text-center text-slate-400">&copy; 2025 Brandon. All rights reserved.</p>
-        </footer>
     </div>
 
+    <script>
+        // --- LESSON DATA ---
+        const lessonSteps = [
+            {
+                instruction: `<h3>Step 1: Say Hello!</h3><p>In programming, the first thing you often learn is how to display a message. In JavaScript, we use <code>console.log()</code> to print information to the console.</p><p>Type the following code into the editor to display the message "Hello, World!":</p><pre><code>console.log("Hello, World!");</code></pre>`,
+                validate: (code, logs) => logs.length > 0 && logs[0] === "Hello, World!",
+                successMessage: `Great job! You printed "Hello, World!" to the console.`,
+                errorMessage: `Not quite. Make sure your <code>console.log()</code> is printing the exact string "Hello, World!".`
+            },
+            {
+                instruction: `<h3>Step 2: Declare a Variable</h3><p>Variables are like containers for storing data. We can create a variable using the <code>let</code> keyword.</p><p>Create a variable named <code>message</code> and assign it the value "Learning to code is fun!":</p><pre><code>let message = "Learning to code is fun!";</code></pre>`,
+                validate: (code, logs, context) => context && typeof context.message !== 'undefined' && context.message === "Learning to code is fun!",
+                successMessage: "Excellent! You've successfully declared the 'message' variable.",
+                errorMessage: "Almost there! Check your spelling, quotes, and make sure you're using `let message = ...`."
+            },
+            {
+                instruction: `<h3>Step 3: Use Your Variable</h3><p>Now, let's use the variable you just created. We can print the value of the <code>message</code> variable using <code>console.log()</code>.</p><p>Type the following code:</p><pre><code>console.log(message);</code></pre>`,
+                validate: (code, logs) => logs.length > 0 && logs[logs.length - 1] === "Learning to code is fun!",
+                successMessage: "Perfect! See how it printed the value stored inside the variable?",
+                errorMessage: "Make sure you're logging the `message` variable itself, not a string with quotes."
+            },
+            {
+                instruction: `<h3>Congratulations!</h3><p>You've completed the first lesson and learned about logging, variables, and using variables. You're on your way to becoming a programmer!</p>`,
+                validate: () => true,
+                successMessage: "Lesson complete! Feel free to practice or move on to the next lesson.",
+                isFinalStep: true
+            }
+        ];
+
+        // --- DOM ELEMENTS ---
+        const instructionsPanel = document.getElementById('instructions-panel'), 
+              codeEditor = document.getElementById('code-editor'), 
+              outputPanel = document.getElementById('output-panel'), 
+              runButton = document.getElementById('run-button'), 
+              nextButton = document.getElementById('next-button'), 
+              progressBar = document.getElementById('progress-bar');
+
+        // --- STATE ---
+        let currentStepIndex = 0, completedCode = '';
+
+        // --- FUNCTIONS ---
+
+        function loadStep(stepIndex) {
+            const step = lessonSteps[stepIndex];
+            instructionsPanel.innerHTML = step.instruction;
+            codeEditor.value = '';
+            outputPanel.innerHTML = '<p class="text-slate-500">Output will appear here...</p>';
+            nextButton.disabled = true;
+            nextButton.classList.add('cursor-not-allowed', 'bg-slate-600', 'text-slate-400');
+            nextButton.classList.remove('bg-green-600', 'hover:bg-green-500', 'text-white');
+            runButton.disabled = !!step.isFinalStep;
+            codeEditor.disabled = !!step.isFinalStep;
+            nextButton.innerHTML = step.isFinalStep ? 'Lesson Complete!' : 'Next Step &rarr;';
+            progressBar.style.width = `${(stepIndex / (lessonSteps.length - 1)) * 100}%`;
+        }
+
+        function runAndValidateCode() {
+            const userCode = codeEditor.value.trim();
+            const currentStep = lessonSteps[currentStepIndex];
+            const fullCode = completedCode + '\n' + userCode;
+            let logs = [], executionError = null, context = {};
+            const originalConsoleLog = console.log;
+            console.log = (...args) => logs.push(args.join(' '));
+
+            try {
+                const executor = new Function('context', `${fullCode}; if (typeof message !== 'undefined') { context.message = message; }`);
+                executor(context);
+            } catch (e) {
+                executionError = e;
+            } finally {
+                console.log = originalConsoleLog;
+            }
+
+            outputPanel.innerHTML = '';
+            if (executionError) {
+                outputPanel.innerHTML = `<p class="text-red-400">Error: ${executionError.message}</p>`;
+            } else if (logs.length > 0) {
+                logs.forEach(log => outputPanel.innerHTML += `<p class="text-sky-300">> ${log}</p>`);
+            } else {
+                outputPanel.innerHTML = '<p class="text-slate-500">Code ran without errors. No output was logged.</p>';
+            }
+
+            if (currentStep.validate(userCode, logs, context)) {
+                outputPanel.innerHTML += `<p class="text-green-400 mt-2">${currentStep.successMessage}</p>`;
+                nextButton.disabled = false;
+                nextButton.classList.remove('cursor-not-allowed', 'bg-slate-600', 'text-slate-400');
+                nextButton.classList.add('bg-green-600', 'hover:bg-green-500', 'text-white');
+            } else if (!executionError) {
+                outputPanel.innerHTML += `<p class="text-red-400 mt-2">${currentStep.errorMessage}</p>`;
+            }
+        }
+
+        function moveToNextStep() {
+            completedCode += codeEditor.value.trim() + '\n';
+            if (currentStepIndex < lessonSteps.length - 1) {
+                currentStepIndex++;
+                loadStep(currentStepIndex);
+            }
+        }
+        
+        // --- EVENT LISTENERS ---
+        runButton.addEventListener('click', runAndValidateCode);
+        nextButton.addEventListener('click', () => { if (!nextButton.disabled) moveToNextStep(); });
+
+        // --- INITIALIZATION ---
+        window.onload = () => { loadStep(currentStepIndex); };
+    </script>
 </body>
 </html>
