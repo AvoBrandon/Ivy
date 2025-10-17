@@ -6,42 +6,26 @@
     <title>Interactive Coding Tutorial</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(90deg, #000000, #3533cd);
-        }
-        #code-editor {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 1rem;
-            line-height: 1.5;
-            background-color: #1e293b; /* slate-800 */
-            color: #e2e8f0; /* slate-200 */
-            border: 1px solid #334155; /* slate-700 */
-            border-radius: 0.5rem;
-            resize: none;
-        }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #1e293b; }
-        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
-        .prose-code\:text-sky-400 code { color: #38bdf8 !important; }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body class="text-slate-300 antialiased">
 
-    <!-- Main Container -->
     <div class="flex flex-col h-screen">
-
-        <!-- Header -->
-        <header class="bg-slate-900/50 backdrop-blur-sm border-b border-slate-700 p-4 shadow-lg">
-            <h1 class="text-2xl font-bold text-white text-center">Learn JavaScript: The Interactive Way</h1>
+        <header class="relative bg-slate-900/50 backdrop-blur-sm border-b border-slate-700 p-4 shadow-lg flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2">
+                <svg class="w-8 h-8 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                <span class="text-xl font-bold text-white hidden sm:block">JS Interactive</span>
+            </a>
+            <nav class="flex items-center gap-4 text-sm font-medium">
+                <a href="index.html" class="text-white bg-slate-700 px-3 py-1 rounded-md">Tutorial</a>
+                <a href="lessons.html" class="text-sky-300 hover:text-sky-100 transition-colors">Lessons</a>
+                <a href="resources.html" class="text-sky-300 hover:text-sky-100 transition-colors">Resources</a>
+                <a href="about.html" class="text-sky-300 hover:text-sky-100 transition-colors">About</a>
+                <a href="contact.html" class="text-sky-300 hover:text-sky-100 transition-colors">Contact</a>
+            </nav>
         </header>
 
-        <!-- Main Content: Tutorial Layout -->
         <main class="flex-grow grid grid-cols-1 lg:grid-cols-2 gap-4 p-4 overflow-auto">
-
-            <!-- Left Panel: Instructions & Progress -->
             <div class="bg-slate-800/70 backdrop-blur-xl rounded-lg shadow-xl flex flex-col p-6 border border-slate-700">
                 <div class="flex justify-between items-center mb-2">
                     <h2 id="lesson-title" class="text-xl font-semibold text-white">Lesson 1: Hello, World!</h2>
@@ -50,11 +34,9 @@
                     <div id="progress-bar" class="bg-sky-500 h-2.5 rounded-full transition-all duration-500 ease-out" style="width: 0%"></div>
                 </div>
                 <div id="instructions-panel" class="flex-grow space-y-4 prose prose-invert max-w-none prose-p:text-slate-300 prose-code:text-sky-400 prose-code:before:content-[''] prose-code:after:content-['']">
-                    <!-- Instructions will be loaded here by JavaScript -->
                 </div>
             </div>
 
-            <!-- Right Panel: Code Editor & Output -->
             <div class="bg-slate-800/70 backdrop-blur-xl rounded-lg shadow-xl flex flex-col border border-slate-700">
                 <div class="flex-grow p-4 flex flex-col">
                     <label for="code-editor" class="text-sm font-medium text-slate-400 mb-2">Your Code:</label>
@@ -77,7 +59,6 @@
     </div>
 
     <script>
-        // --- LESSON DATA ---
         const lessonSteps = [
             {
                 instruction: `<h3>Step 1: Say Hello!</h3><p>In programming, the first thing you often learn is how to display a message. In JavaScript, we use <code>console.log()</code> to print information to the console.</p><p>Type the following code into the editor to display the message "Hello, World!":</p><pre><code>console.log("Hello, World!");</code></pre>`,
@@ -104,20 +85,13 @@
                 isFinalStep: true
             }
         ];
-
-        // --- DOM ELEMENTS ---
         const instructionsPanel = document.getElementById('instructions-panel'), 
               codeEditor = document.getElementById('code-editor'), 
               outputPanel = document.getElementById('output-panel'), 
               runButton = document.getElementById('run-button'), 
               nextButton = document.getElementById('next-button'), 
               progressBar = document.getElementById('progress-bar');
-
-        // --- STATE ---
         let currentStepIndex = 0, completedCode = '';
-
-        // --- FUNCTIONS ---
-
         function loadStep(stepIndex) {
             const step = lessonSteps[stepIndex];
             instructionsPanel.innerHTML = step.instruction;
@@ -131,7 +105,6 @@
             nextButton.innerHTML = step.isFinalStep ? 'Lesson Complete!' : 'Next Step &rarr;';
             progressBar.style.width = `${(stepIndex / (lessonSteps.length - 1)) * 100}%`;
         }
-
         function runAndValidateCode() {
             const userCode = codeEditor.value.trim();
             const currentStep = lessonSteps[currentStepIndex];
@@ -139,7 +112,6 @@
             let logs = [], executionError = null, context = {};
             const originalConsoleLog = console.log;
             console.log = (...args) => logs.push(args.join(' '));
-
             try {
                 const executor = new Function('context', `${fullCode}; if (typeof message !== 'undefined') { context.message = message; }`);
                 executor(context);
@@ -148,7 +120,6 @@
             } finally {
                 console.log = originalConsoleLog;
             }
-
             outputPanel.innerHTML = '';
             if (executionError) {
                 outputPanel.innerHTML = `<p class="text-red-400">Error: ${executionError.message}</p>`;
@@ -157,7 +128,6 @@
             } else {
                 outputPanel.innerHTML = '<p class="text-slate-500">Code ran without errors. No output was logged.</p>';
             }
-
             if (currentStep.validate(userCode, logs, context)) {
                 outputPanel.innerHTML += `<p class="text-green-400 mt-2">${currentStep.successMessage}</p>`;
                 nextButton.disabled = false;
@@ -167,7 +137,6 @@
                 outputPanel.innerHTML += `<p class="text-red-400 mt-2">${currentStep.errorMessage}</p>`;
             }
         }
-
         function moveToNextStep() {
             completedCode += codeEditor.value.trim() + '\n';
             if (currentStepIndex < lessonSteps.length - 1) {
@@ -175,12 +144,8 @@
                 loadStep(currentStepIndex);
             }
         }
-        
-        // --- EVENT LISTENERS ---
         runButton.addEventListener('click', runAndValidateCode);
         nextButton.addEventListener('click', () => { if (!nextButton.disabled) moveToNextStep(); });
-
-        // --- INITIALIZATION ---
         window.onload = () => { loadStep(currentStepIndex); };
     </script>
 </body>

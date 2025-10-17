@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources - Interactive Coding Tutorial</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="text-slate-300 antialiased">
+    <div class="flex flex-col min-h-screen">
+        <header class="relative bg-slate-900/50 backdrop-blur-sm border-b border-slate-700 p-4 shadow-lg flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2">
+                <svg class="w-8 h-8 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                <span class="text-xl font-bold text-white hidden sm:block">JS Interactive</span>
+            </a>
+            <nav class="flex items-center gap-4 text-sm font-medium">
+                <a href="index.html" class="text-sky-300 hover:text-sky-100 transition-colors">Tutorial</a>
+                <a href="lessons.html" class="text-sky-300 hover:text-sky-100 transition-colors">Lessons</a>
+                <a href="resources.html" class="text-white bg-slate-700 px-3 py-1 rounded-md">Resources</a>
+                <a href="about.html" class="text-sky-300 hover:text-sky-100 transition-colors">About</a>
+                <a href="contact.html" class="text-sky-300 hover:text-sky-100 transition-colors">Contact</a>
+            </nav>
+        </header>
+
+        <main class="flex-grow p-8 overflow-auto">
+            <div class="max-w-4xl mx-auto bg-slate-800/70 backdrop-blur-xl rounded-lg shadow-xl p-6 border border-slate-700">
+                <h2 class="text-2xl font-semibold text-white mb-4">Helpful Resources</h2>
+                <p class="mb-6 text-slate-400">Learning to code is a journey. Here are some excellent external resources to help you along the way.</p>
+                
+                <ul class="space-y-3">
+                    <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noopener noreferrer" class="text-sky-400 hover:text-sky-300 font-semibold">MDN Web Docs for JavaScript &rarr;</a><p class="text-sm text-slate-400">The ultimate reference for all things JavaScript.</p></li>
+                    <li><a href="https://www.python.org/doc/" target="_blank" rel="noopener noreferrer" class="text-sky-400 hover:text-sky-300 font-semibold">Official Python Documentation &rarr;</a><p class="text-sm text-slate-400">Learn another powerful and popular programming language.</p></li>
+                    <li><a href="https://stackoverflow.com/" target="_blank" rel="noopener noreferrer" class="text-sky-400 hover:text-sky-300 font-semibold">Stack Overflow &rarr;</a><p class="text-sm text-slate-400">The largest online community for developers to learn and share knowledge.</p></li>
+                </ul>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
